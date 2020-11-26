@@ -143,14 +143,14 @@ case "$num" in
 	beikong1_chushihua
 	;;
 	*)
-	echo "请输入正确数字 [0-2]"
-	;;
-	clear	
+        clear
+	echo -e "${Error}:请输入正确数字"
 	sleep 2s
 	start_menu
 	;;
 esac
 }
+
 
 #############系统检测组件#############
 
