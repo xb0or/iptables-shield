@@ -135,9 +135,11 @@ echo && echo -e " IP盾构机辅助脚本 V1.1.2 kedou修复版
 stty erase '^H' && read -p " 请输入数字 [1-2]:" num
 case "$num" in
 	1)
+	check_sys
 	beikong0_chushihua
 	;;
 	2)
+	check_sys
 	beikong1_chushihua
 	;;
 	
