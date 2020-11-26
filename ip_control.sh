@@ -66,7 +66,7 @@ fi
 	tc qdisc add dev "$eth_name" root handle 1: htb default 1
 	tc class add dev "$eth_name" parent 1: classid 1:1 htb rate "$port_speed"mbps
 	echo "保存防火墙..."
-	if [[ "$os" == "centos" ]]; then
+	if [[ "$release" == "centos" ]]; then
 		service iptables save
 		echo "安装curl..."
 		yum install wget -y
@@ -99,7 +99,7 @@ fi
 }
 beikong1_chushihua(){
 	echo "正在执行初始化，请提前手动放行防火墙！"
-	if [[ "$os" == "centos" ]]; then
+	if [[ "$release" == "centos" ]]; then
 		yum install wget -y
 		yum install curl -y
 		yum install ca-certificates -y
@@ -124,7 +124,7 @@ beikong1_chushihua(){
 }
 
 
-echo && echo -e " IP盾构机辅助脚本 V1.1.1 kedou修复版
+echo && echo -e " IP盾构机辅助脚本 V1.1.2 kedou修复版
 ————————————————————————————————————————————————————————————————————————————————————
   --  https://github.com/xb0or/iptables-shield
   -- 请注意，${Green_font_prefix}CENOS7系统请先升级iptables${Font_color_suffix}CENOS7系统请先升级iptables，参考：https://www.bnxb.com/linuxserver/27546.html --
@@ -145,3 +145,25 @@ case "$num" in
 	echo "请输入正确数字 [0-5]"
 	;;
 esac
+
+
+#############################
+#检查系统
+check_sys(){
+	if [[ -f /etc/redhat-release ]]; then
+		release="centos"
+	elif cat /etc/issue | grep -q -E -i "debian"; then
+		release="debian"
+	elif cat /etc/issue | grep -q -E -i "ubuntu"; then
+		release="ubuntu"
+	elif cat /etc/issue | grep -q -E -i "centos|red hat|redhat"; then
+		release="centos"
+	elif cat /proc/version | grep -q -E -i "debian"; then
+		release="debian"
+	elif cat /proc/version | grep -q -E -i "ubuntu"; then
+		release="ubuntu"
+	elif cat /proc/version | grep -q -E -i "centos|red hat|redhat"; then
+		release="centos"
+    fi
+}
+
