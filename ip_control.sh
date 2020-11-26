@@ -92,7 +92,7 @@ fi
     read -p "请输入主控网址，例如http://baidu.com :" URL
     read -p "请输入中转机密钥 :" KEY
     add_crontab "*/5 * * * * . /etc/profile;ip_table -url $URL -key $KEY"
-    echo "*/5 * * * * . /etc/profile;ip_table -url $URL -key $KEY"
+    
 }
 beikong1_chushihua(){
 	echo "正在执行初始化，请提前手动放行防火墙！"
@@ -115,7 +115,7 @@ beikong1_chushihua(){
     read -p "请输入主控网址，例如http://baidu.com :" URL
     read -p "请输入落地机密钥 :" KEY
     add_crontab "*/5 * * * * . /etc/profile;iptables_gost -url $URL -key $KEY"
-    echo "*/5 * * * * . /etc/profile;iptables_gost -url $URL -key $KEY"
+    
 
 }
 echo && echo -e " IP盾构机辅助脚本 V1.1.0 kedou修复版
