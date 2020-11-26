@@ -123,8 +123,10 @@ beikong1_chushihua(){
     add_crontab "*/5 * * * * . /etc/profile;iptables_gost -url $URL -key $KEY"
 }
 
-
-echo && echo -e " IP盾构机辅助脚本 V1.1.2 kedou修复版
+#开始菜单
+start_menu(){
+clear
+echo && echo -e " IP盾构机辅助脚本 V2.0.0 kedou修复版
 ————————————————————————————————————————————————————————————————————————————————————
   --  https://github.com/xb0or/iptables-shield
   -- 请注意，${Green_font_prefix}CENOS7系统请先升级iptables${Font_color_suffix}CENOS7系统请先升级iptables，参考：https://www.bnxb.com/linuxserver/27546.html --
@@ -135,21 +137,23 @@ echo && echo -e " IP盾构机辅助脚本 V1.1.2 kedou修复版
 stty erase '^H' && read -p " 请输入数字 [1-2]:" num
 case "$num" in
 	1)
-	check_sys
 	beikong0_chushihua
 	;;
 	2)
-	check_sys
 	beikong1_chushihua
 	;;
-	
 	*)
-	echo "请输入正确数字 [0-5]"
+	echo "请输入正确数字 [0-2]"
+	;;
+	clear	
+	sleep 2s
+	start_menu
 	;;
 esac
+}
 
+#############系统检测组件#############
 
-#############################
 #检查系统
 check_sys(){
 	if [[ -f /etc/redhat-release ]]; then
@@ -169,3 +173,25 @@ check_sys(){
     fi
 }
 
+#检查Linux版本
+check_version(){
+	if [[ -s /etc/redhat-release ]]; then
+		version=`grep -oE  "[0-9.]+" /etc/redhat-release | cut -d . -f 1`
+	else
+		version=`grep -oE  "[0-9.]+" /etc/issue | cut -d . -f 1`
+	fi
+	bit=`uname -m`
+	if [[ ${bit} = "x86_64" ]]; then
+		bit="x64"
+	else
+		bit="x32"
+	fi
+}
+
+
+
+#############系统检测组件#############
+check_sys
+check_version
+[[ ${release} != "debian" ]] && [[ ${release} != "ubuntu" ]] && [[ ${release} != "centos" ]] && echo -e "${Error} 本脚本不支持当前系统 ${release} !" && exit 1
+start_menu
