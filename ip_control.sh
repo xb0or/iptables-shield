@@ -5,7 +5,13 @@
 # Copyright (c) 2020.
 
 
-
+add_crontab() {
+  crontab -l 2>/dev/null >$0.temp
+  echo "$*" >>$0.temp &&
+    crontab $0.temp &&
+    rm -f $0.temp &&
+    echo -e "添加crontab成功 !" && crontab -l
+}
 
 
 # Detect Debian users running the script with "sh" instead of bash
@@ -43,9 +49,9 @@ if grep -qs "CentOS release 6" /etc/redhat-release; then
 fi
 
 	echo "请输入当前机器主网卡名，例如eth0："
-			read -p "eth name: " eth_name
+	read -p "eth name: " eth_name
 	echo "请输入当前机器总带宽速率(单位Mbps)："
-			read -p "须为大于0的正整数: " port_speed
+	read -p "须为大于0的正整数: " port_speed
 	echo "开启iptables转发模块..."
 	echo -e "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 	sysctl -p
@@ -82,7 +88,11 @@ fi
 		wget https://raw.githubusercontent.com/xb0or/iptables-shield/master/brook -O /usr/bin/brook
 		chmod +x /usr/bin/brook
 	fi
-	echo "转发端初始完成！请手动 crontab -e 添加定时任务！"
+    
+    read -p "请输入主控网址，例如http://baidu.com :" URL
+    read -p "请输入中转机密钥 :" KEY
+    add_crontab "*/5 * * * * . /etc/profile;ip_table -url $URL -key $KEY"
+    echo "*/5 * * * * . /etc/profile;ip_table -url $URL -key $KEY"
 }
 beikong1_chushihua(){
 	echo "正在执行初始化，请提前手动放行防火墙！"
@@ -102,11 +112,14 @@ beikong1_chushihua(){
 		wget https://raw.githubusercontent.com/xb0or/iptables-shield/master/iptables_gost -O /usr/bin/iptables_gost
 		chmod +x /usr/bin/iptables_gost
 	fi
-	echo "被控端端初始完成！请手动 crontab -e 添加定时任务！"
+    read -p "请输入主控网址，例如http://baidu.com :" URL
+    read -p "请输入落地机密钥 :" KEY
+    add_crontab "*/5 * * * * . /etc/profile;iptables_gost -url $URL -key $KEY"
+    echo "*/5 * * * * . /etc/profile;iptables_gost -url $URL -key $KEY"
+
 }
-echo && echo -e " IP盾构机辅助脚本 V1.0.2 修复版
-
-
+echo && echo -e " IP盾构机辅助脚本 V1.1.0 kedou修复版
+  --  https://github.com/xb0or/iptables-shield
   -- 请注意，${Green_font_prefix}CENOS7系统请先升级iptables${Font_color_suffix}CENOS7系统请先升级iptables，参考：https://www.bnxb.com/linuxserver/27546.html --
   
 
