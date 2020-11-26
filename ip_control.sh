@@ -69,11 +69,15 @@ fi
 	if [[ "$os" == "centos" ]]; then
 		service iptables save
 		echo "安装curl..."
-		yum install wget curl ca-certificates -y
+		yum install wget -y
+		yum install curl -y
+		yum install ca-certificates -y
 	else
 		iptables-save > /etc/iptables.up.rules
 		echo "安装curl..."
-		apt-get install wget curl ca-certificates -y
+		apt-get install wget -y
+		apt-get install curl -y
+		apt-get install ca-certificates -y
 	fi
 	echo "初始化完毕！"
 	read -p "是否安装被控端文件(首次执行必须安装)[y/N]" down_files
@@ -91,18 +95,20 @@ fi
     
     read -p "请输入主控网址，例如http://baidu.com :" URL
     read -p "请输入中转机密钥 :" KEY
-    add_crontab "*/5 * * * * . /etc/profile;ip_table -url $URL -key $KEY"
-    
+    add_crontab "*/5 * * * * . /etc/profile;ip_table -url $URL -key $KEY"  
 }
 beikong1_chushihua(){
 	echo "正在执行初始化，请提前手动放行防火墙！"
 	if [[ "$os" == "centos" ]]; then
-		echo "安装curl..."
-		yum install wget curl ca-certificates -y
+		yum install wget -y
+		yum install curl -y
+		yum install ca-certificates -y
 	else
-		echo "安装curl..."
-		apt-get install wget curl ca-certificates -y
+                apt-get install wget -y
+		apt-get install curl -y
+		apt-get install ca-certificates -y
 	fi
+	echo "初始化完毕！"
 	read -p "是否下载被控端文件(首次执行必须安装)[y/N]" down_files_1
 	if [[ "$down_files_1" =~ ^[yY]$ ]]; then
 		echo "正在下载gost2.11版本"
@@ -115,15 +121,15 @@ beikong1_chushihua(){
     read -p "请输入主控网址，例如http://baidu.com :" URL
     read -p "请输入落地机密钥 :" KEY
     add_crontab "*/5 * * * * . /etc/profile;iptables_gost -url $URL -key $KEY"
-    
-
 }
-echo && echo -e " IP盾构机辅助脚本 V1.1.0 kedou修复版
+
+
+echo && echo -e " IP盾构机辅助脚本 V1.1.1 kedou修复版
+————————————————————————————————————————————————————————————————————————————————————
   --  https://github.com/xb0or/iptables-shield
   -- 请注意，${Green_font_prefix}CENOS7系统请先升级iptables${Font_color_suffix}CENOS7系统请先升级iptables，参考：https://www.bnxb.com/linuxserver/27546.html --
-  
 
-————————————
+————————————————————————————————————————————————————————————————————————————————————
  ${Green_font_prefix}1.${Font_color_suffix} 转发机-全局初始化
  ${Green_font_prefix}2.${Font_color_suffix} 落地机-全局初始化" && echo
 stty erase '^H' && read -p " 请输入数字 [1-2]:" num
