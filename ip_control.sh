@@ -83,13 +83,13 @@ fi
 	read -p "是否安装被控端文件(首次执行必须安装)[y/N]" down_files
 	if [[ "$down_files" =~ ^[yY]$ ]]; then
 		echo "正在下载gost2.11版本"
-		wget https://raw.githubusercontent.com/xb0or/iptables-shield/master/gost -O /usr/bin/gost
+		wget https://cdn.jsdelivr.net/gh/xb0or/iptables-shield@master/gost -O /usr/bin/gost
 		chmod +x /usr/bin/gost
 		echo "正在下载被控端"
-		wget https://raw.githubusercontent.com/xb0or/iptables-shield/master/ip_table -O /usr/bin/ip_table
+		wget https://cdn.jsdelivr.net/gh/xb0or/iptables-shield@master/ip_table -O /usr/bin/ip_table
 		chmod +x /usr/bin/ip_table
 		echo "正在下载brook"
-		wget https://raw.githubusercontent.com/xb0or/iptables-shield/master/brook -O /usr/bin/brook
+		wget https://cdn.jsdelivr.net/gh/xb0or/iptables-shield@master/brook -O /usr/bin/brook
 		chmod +x /usr/bin/brook
 	fi
     
@@ -112,10 +112,10 @@ beikong1_chushihua(){
 	read -p "是否下载被控端文件(首次执行必须安装)[y/N]" down_files_1
 	if [[ "$down_files_1" =~ ^[yY]$ ]]; then
 		echo "正在下载gost2.11版本"
-		wget https://raw.githubusercontent.com/xb0or/iptables-shield/master/gost -O /usr/bin/gost
+		wget https://cdn.jsdelivr.net/gh/xb0or/iptables-shield@master/gost -O /usr/bin/gost
 		chmod +x /usr/bin/gost
 		echo "正在下载被控端"
-		wget https://raw.githubusercontent.com/xb0or/iptables-shield/master/iptables_gost -O /usr/bin/iptables_gost
+		wget https://cdn.jsdelivr.net/gh/xb0or/iptables-shield@master/iptables_gost -O /usr/bin/iptables_gost
 		chmod +x /usr/bin/iptables_gost
 	fi
     read -p "请输入主控网址，例如http://baidu.com :" URL
