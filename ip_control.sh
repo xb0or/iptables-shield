@@ -1,15 +1,7 @@
 #!/bin/bash
-#
-# IP盾构机被控端辅助脚本 by 良辰
-#
-# Copyright (c) 2020.
-
 
 add_crontab() {
-  crontab -l 2>/dev/null >$0.temp
-  echo "$*" >>$0.temp &&
-    crontab $0.temp &&
-    rm -f $0.temp &&
+crontab -l > conf && echo "$*" >> conf && crontab conf
     echo -e "添加crontab成功 !" && crontab -l
 }
 
@@ -126,7 +118,7 @@ beikong1_chushihua(){
 #开始菜单
 start_menu(){
 clear
-echo && echo -e " IP盾构机辅助脚本 V2.0.0 kedou修复版
+echo && echo -e " IP盾构机辅助脚本 V2.1.0 kedou修复版
 ————————————————————————————————————————————————————————————————————————————————————
   --  https://github.com/xb0or/iptables-shield
   -- 请注意，${Green_font_prefix}CENOS7系统请先升级iptables${Font_color_suffix}CENOS7系统请先升级iptables，参考：https://www.bnxb.com/linuxserver/27546.html --
