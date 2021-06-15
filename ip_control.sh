@@ -58,19 +58,37 @@ fi
 	tc qdisc add dev "$eth_name" root handle 1: htb default 1
 	tc class add dev "$eth_name" parent 1: classid 1:1 htb rate "$port_speed"mbps
 	echo "保存防火墙..."
-	if [[ "$release" == "centos" ]]; then
-		service iptables save
-		echo "安装curl..."
-		yum install wget -y
-		yum install curl -y
-		yum install ca-certificates -y
-	else
-		iptables-save > /etc/iptables.up.rules
-		echo "安装curl..."
-		apt-get install wget -y
-		apt-get install curl -y
-		apt-get install ca-certificates -y
+if ! type curl >/dev/null 2>&1; then
+    echo 'curl 未安装 安装中'
+	apt-get update && apt-get install curl -y || yum install curl -y
+else
+    echo 'curl 已安装，继续'
+fi
+
+if ! type wget >/dev/null 2>&1; then
+    echo 'wget 未安装 安装中';
+	apt-get update && apt-get install wget -y || yum install curl -y
+else
+    echo 'wget 已安装，继续'
+fi
+if [[ "${release}" == "centos" ]]; then
+		if (yum list installed ca-certificates | grep '202'); then
+			echo 'CA证书检查OK'
+		else
+			echo 'CA证书检查不通过，处理中'
+			yum install ca-certificates dmidecode -y
+			update-ca-trust force-enable
+			fi
+	elif [[ "${release}" == "debian" || "${release}" == "ubuntu" ]]; then
+		if (apt list --installed | grep 'ca-certificates' | grep '202');then
+			echo 'CA证书检查OK'
+		else
+			echo 'CA证书检查不通过，处理中'
+			apt-get install ca-certificates dmidecode -y
+			update-ca-certificates
+		fi	
 	fi
+}
 	echo "初始化完毕！"
 	read -p "是否安装被控端文件(首次执行必须安装)[y/N]" down_files
 	if [[ "$down_files" =~ ^[yY]$ ]]; then
@@ -118,7 +136,7 @@ beikong1_chushihua(){
 #开始菜单
 start_menu(){
 clear
-echo && echo -e " IP盾构机辅助脚本 V2.1.0 kedou修复版
+echo && echo -e " IP盾构机辅助脚本 V2.1.1 kedou修复版
 ————————————————————————————————————————————————————————————————————————————————————
   --  https://github.com/xb0or/iptables-shield
   -- 请注意，${Green_font_prefix}CENOS7系统请先升级iptables${Font_color_suffix}CENOS7系统请先升级iptables，参考：https://www.bnxb.com/linuxserver/27546.html --
