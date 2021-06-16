@@ -88,7 +88,6 @@ if [[ "${release}" == "centos" ]]; then
 			update-ca-certificates
 		fi	
 	fi
-}
 	echo "初始化完毕！"
 	read -p "是否安装被控端文件(首次执行必须安装)[y/N]" down_files
 	if [[ "$down_files" =~ ^[yY]$ ]]; then
@@ -136,7 +135,7 @@ beikong1_chushihua(){
 #开始菜单
 start_menu(){
 clear
-echo && echo -e " IP盾构机辅助脚本 V2.1.1 kedou修复版
+echo && echo -e " IP盾构机辅助脚本 V2.1.2 kedou修复版
 ————————————————————————————————————————————————————————————————————————————————————
   --  https://github.com/xb0or/iptables-shield
   -- 请注意，${Green_font_prefix}CENOS7系统请先升级iptables${Font_color_suffix}CENOS7系统请先升级iptables，参考：https://www.bnxb.com/linuxserver/27546.html --
